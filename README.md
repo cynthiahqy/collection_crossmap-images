@@ -19,6 +19,17 @@ Updating contents to match the latest commit:
 git submodule update --remote --merge
 ```
 
+## Useful ImageMagick Commands
+
+Crop & transparent background:
+
+``` zsh
+convert filename.png -trim -transparent white filename.png
+```
+
+For details see:
+<https://www.cynthiahqy.com/posts/imagemagick-basic-trim/>
+
 ## Images
 
 ## Illustrations
