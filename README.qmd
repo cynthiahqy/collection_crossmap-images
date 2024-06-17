@@ -1,0 +1,19 @@
+---
+title: Images for Crossmaps Project
+format: gfm
+---
+```{r}
+#| output: asis
+#| echo: false
+dirs <- fs::dir_ls(type = "directory")
+
+catImages <- function(folder){
+  img_files <- fs::dir_ls(folder) |> sort()
+  cat(glue::glue("{img_files}\n\n\n![{img_files}]({img_files})\n\n\n"))
+}
+
+for (folder in dirs){
+    cat("## ", stringr::str_to_title(folder), "\n\n\n", sep = "")
+    catImages(folder)
+}
+```
