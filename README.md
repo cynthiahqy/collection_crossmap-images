@@ -90,6 +90,10 @@ plots/plot-isiccomb-split-by-income-groups.png
 
 ## Screenshots
 
+screenshots/asc-poster-basic-implications.png
+
+![](screenshots/asc-poster-basic-implications.png)
+
 screenshots/asc-poster.png
 
 ![](screenshots/asc-poster.png)
