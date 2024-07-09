@@ -84,6 +84,10 @@ illustrations/xmap-hex-sticker.png
 
 ## Plots
 
+plots/plot-anzsco-isco-bigraph-with-table.png
+
+![](plots/plot-anzsco-isco-bigraph-with-table.png)
+
 plots/plot-isiccomb-split-by-income-groups.png
 
 ![](plots/plot-isiccomb-split-by-income-groups.png)
