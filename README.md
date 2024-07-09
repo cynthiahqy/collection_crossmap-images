@@ -42,9 +42,17 @@ illustrations/diagram_current-prov.png
 
 ![](illustrations/diagram_current-prov.png)
 
+illustrations/diagram_current-workflow.png
+
+![](illustrations/diagram_current-workflow.png)
+
 illustrations/diagram_ex-post-process.png
 
 ![](illustrations/diagram_ex-post-process.png)
+
+illustrations/diagram_framework-workflow.png
+
+![](illustrations/diagram_framework-workflow.png)
 
 illustrations/diagram_preprocessing-solutions.png
 
@@ -61,6 +69,18 @@ illustrations/icon-IEEE-VIS.png
 illustrations/icon-official-stats.png
 
 ![](illustrations/icon-official-stats.png)
+
+illustrations/plot_aus-agg.png
+
+![](illustrations/plot_aus-agg.png)
+
+illustrations/plot_aus-split.png
+
+![](illustrations/plot_aus-split.png)
+
+illustrations/xmap-hex-sticker.png
+
+![](illustrations/xmap-hex-sticker.png)
 
 ## Plots
 

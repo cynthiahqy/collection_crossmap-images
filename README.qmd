@@ -30,11 +30,6 @@ convert filename.png -trim -transparent white filename.png
 
 For details see: <https://www.cynthiahqy.com/posts/imagemagick-basic-trim/>
 
-
-
-
-
-
 ## Images
 ```{r}
 #| output: asis
