@@ -19,6 +19,12 @@ Updating contents to match the latest commit:
 git submodule update --remote --merge
 ```
 
+to match remote:
+
+``` zsh
+git submodule update --remote --rebase
+```
+
 ## Useful ImageMagick Commands
 
 Crop & transparent background:
@@ -101,3 +107,7 @@ screenshots/asc-poster-basic-implications.png
 screenshots/asc-poster.png
 
 ![](screenshots/asc-poster.png)
+
+screenshots/screenshot_visxprov-ctry-proposed.png
+
+![](screenshots/screenshot_visxprov-ctry-proposed.png)
