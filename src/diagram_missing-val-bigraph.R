@@ -5,7 +5,19 @@ library(dplyr)
 library(ggplot2)
 
 # Plot an incidence table (expanded panel map) as a ggplot sigmoid plot
-plt_pm_sigmoid <- function(pm, from, to, weights) {
+plt_pm_sigmoid <- function(
+    pm, from, to, weights,
+    .theme = list(
+      cowplot::theme_minimal_grid(font_size = 11, line_size = 0),
+      theme(
+        legend.position = "bottom",
+        panel.grid.major = element_blank(),
+        axis.text.y = element_blank(),
+        axis.text.x = element_blank(),
+        plot.background = element_rect(fill = "white"),
+        plot.margin = margin(2, 0, 0, 2)
+      )
+    )) {
   edges <- pm |>
     transmute(from = {{ from }}, to = {{ to }}, weighted = {{ weights }})
 
@@ -85,16 +97,8 @@ plt_pm_sigmoid <- function(pm, from, to, weights) {
         label = weighted
       )
     ) +
-    # theme
-    cowplot::theme_minimal_grid(font_size = 14, line_size = 0) +
-    theme(
-      legend.position = "bottom",
-      panel.grid.major = element_blank(),
-      axis.text.y = element_blank(),
-      axis.text.x = element_blank(),
-      plot.background = element_rect(fill = "white")
-    ) +
-    labs(x = NULL, y = NULL, fill = "target-from-sources")
+    labs(x = NULL, y = NULL, fill = "target-from-sources") +
+    .theme
 
   return(plt_uw)
 }
@@ -108,17 +112,29 @@ gg_pm_BA <- pm_BA |>
   scale_fill_brewer(palette = "PuBu", direction = -1)
 
 data_missing <- data_A |>
+  dplyr::arrange(std_A) |>
   dplyr::select(std_A, A_prod)
 data_missing[data_missing$std_A == "x5555", c("A_prod")] <- NA
+data_missing <- data_missing |>
+  dplyr::select(`Industry` = "std_A", `GDP` = "A_prod")
 
 gt_missing <- gt::gt(data_missing) |>
   gtExtras::gt_highlight_rows(
-    rows = is.na(A_prod), fill = error_highlight_col
+    rows = is.na(Industry), fill = error_highlight_col
   )
+
+## gt::gtsave(gt_missing, "src/output/diagram_missing-val-input-array-gt.png")
+
+library(tinytable)
+tinytable_missing_x <- tt(data_missing, theme = "grid") |>
+  style_tt(i = 5, background = error_highlight_col)
+
 
 library(patchwork)
 
-wrap_table(gt_missing, space = "fixed", panel = "full") |
-  gg_pm_BA + guides(fill = "none") + ggtitle("") -> diagram_missing
+# wrap_table(gt_missing, space = "fixed_y", panel = "full") +
+bigraph <- gg_pm_BA + guides(fill = "none") + ggtitle("")
+ggsave("src/output/diagram_missing-val-bigraph-only.png", plot = bigraph, width = 5, height = 3.5)
 
-ggsave("src/output/diagram_missing-val-bigraph.png")
+input_array <- wrap_table(gt_missing, panel = "full")
+ggsave("src/output/diagram_missing-val-input-array.png", plot = input_array, width = 1.5, height = 3.5)

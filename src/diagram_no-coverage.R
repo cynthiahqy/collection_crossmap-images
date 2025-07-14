@@ -75,20 +75,25 @@ x_bad <- data_A |>
     std_A = "x7777",
     A_100 = 100,
     A_prod = 3895
+    |> dplyr::arrange(std_A)
   )
+
 gg_x_bad <- x_bad |>
   plt_df_mtx(A_prod, std_A)
 
+x_bad_df <- x_bad |>
+  dplyr::select(`Industry` = "std_A", `GDP` = "A_prod")
 
-
-gt_x_bad <- x_bad |>
-  dplyr::arrange(std_A) |>
-  dplyr::select(`Industry` = "std_A", `GDP` = "A_prod") |>
-  gt::gt() |>
+gt_x_bad <- x_bad
+gt::gt() |>
   gtExtras::gt_highlight_rows(
     rows = `Industry` == "x7777",
     fill = error_highlight_col
   )
+
+library(tinytable)
+tinytable_uncovered_x <- tt(x_bad_df, theme = "grid") |>
+  style_tt(i = 7, background = error_highlight_col)
 
 library(patchwork)
 gg_pm_mtx +
