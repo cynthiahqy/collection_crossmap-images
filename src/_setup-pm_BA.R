@@ -38,3 +38,28 @@ data_A <-
     )
 
 error_highlight_col <- "#d88080"
+
+## bad data example
+
+data_missing <- data_A |>
+  dplyr::arrange(std_A) |>
+  dplyr::select(std_A, A_prod)
+data_missing[data_missing$std_A == "x5555", c("A_prod")] <- NA
+data_missing <- data_missing |>
+  dplyr::select(`Industry` = "std_A", `GDP` = "A_prod")
+
+x_bad <- data_A |>
+  dplyr::add_row(
+    std_A = "x7777",
+    A_100 = 100,
+    A_prod = 3895
+  ) |> dplyr::arrange(std_A)
+  
+x_bad_df <- x_bad |>
+    dplyr::select(`Industry` = "std_A", `GDP` = "A_prod")
+
+x_bad2_df <- x_bad_df
+
+x_bad2_df[x_bad2_df$Industry == "x5555", c("GDP")] <- NA
+
+

@@ -111,30 +111,9 @@ gg_pm_BA <- pm_BA |>
   plt_pm_sigmoid(from = std_A, to = std_B, weights = weight) +
   scale_fill_brewer(palette = "PuBu", direction = -1)
 
-data_missing <- data_A |>
-  dplyr::arrange(std_A) |>
-  dplyr::select(std_A, A_prod)
-data_missing[data_missing$std_A == "x5555", c("A_prod")] <- NA
-data_missing <- data_missing |>
-  dplyr::select(`Industry` = "std_A", `GDP` = "A_prod")
-
 gt_missing <- gt::gt(data_missing) |>
   gtExtras::gt_highlight_rows(
     rows = is.na(Industry), fill = error_highlight_col
   )
 
 ## gt::gtsave(gt_missing, "src/output/diagram_missing-val-input-array-gt.png")
-
-library(tinytable)
-tinytable_missing_x <- tt(data_missing, theme = "grid") |>
-  style_tt(i = 5, background = error_highlight_col)
-
-
-library(patchwork)
-
-# wrap_table(gt_missing, space = "fixed_y", panel = "full") +
-bigraph <- gg_pm_BA + guides(fill = "none") + ggtitle("")
-ggsave("src/output/diagram_missing-val-bigraph-only.png", plot = bigraph, width = 5, height = 3.5)
-
-input_array <- wrap_table(gt_missing, panel = "full")
-ggsave("src/output/diagram_missing-val-input-array.png", plot = input_array, width = 1.5, height = 3.5)
