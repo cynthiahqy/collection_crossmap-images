@@ -105,7 +105,7 @@ source(here::here("./src/_setup-pm_BA.R"))
 
 gg_pm_BA <- pm_BA |>
   plt_pm_sigmoid(from = std_A, to = std_B, weights = weight) +
-  scale_fill_brewer(palette = "RdPu", direction = -1)
+  scale_fill_brewer(palette = "PuBu", direction = -1)
 
 data_missing <- data_A |>
   dplyr::select(std_A, A_prod)
@@ -116,7 +116,9 @@ gt_missing <- gt::gt(data_missing) |>
     rows = is.na(A_prod), fill = error_highlight_col
   )
 
-wrap_table(gt_missing, space = "free_y", panel = "full") +
-  gg_pm_BA +
-  guides(fill = "none") +
-  ggtitle("")
+library(patchwork)
+
+wrap_table(gt_missing, space = "fixed", panel = "full") |
+  gg_pm_BA + guides(fill = "none") + ggtitle("") -> diagram_missing
+
+ggsave("src/output/diagram_missing-val-bigraph.png")

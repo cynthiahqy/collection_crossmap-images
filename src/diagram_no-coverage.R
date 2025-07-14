@@ -28,7 +28,7 @@ plt_inc_long_mtx <- function(inc_long, to, from, weights) {
       {{ weights }} < 1 ~ "one-to-many"
     )) |>
     ggplot(aes(x = {{ to }}, y = {{ from }})) +
-    geom_tile(aes(fill = src_case), col = "grey") +
+    geom_tile(aes(fill = src_case), col = "grey", show.legend = FALSE) +
     scale_y_discrete(limits = rev) +
     scale_x_discrete(position = "top") +
     scale_fill_brewer() +
@@ -64,7 +64,8 @@ gg_x_mtx <- plt_df_mtx(data_A, A_100:A_prod, std_A)
 library(patchwork)
 gg_pm_mtx +
   guides(fill = "none") +
-  ggtitle("") + gg_x_mtx +
+  ggtitle("") +
+  gg_x_mtx +
   scale_y_discrete(position = "right", limits = rev) +
   patchwork::plot_annotation(title = "Crossmap covers Source Data")
 
@@ -91,14 +92,16 @@ gt_x_bad <- x_bad |>
 
 library(patchwork)
 gg_pm_mtx +
-  guides(fill = "none") +
+  # guides(fill = "none") +
+  theme(legend.position = "none", panel.grid = element_blank()) +
   ggtitle("") +
-  gt_x_bad
+  wrap_table(gt_x_bad, panel = "full", space = "free_x")
+ggsave("src/output/diagram_no-coverage-default.png", plot = last_plot())
 # scale_y_discrete(position = "left", limits = rev) +
 # scale_fill_brewer(palette = "Purples") +
 # patchwork::plot_annotation(title = "Crossmap does not cover fully source index (I)")
 
-
+## -- with NA ---
 gg_pm_bad <- tidyr::expand_grid(from = c(NA), to = unique(codes_BA$std_B)) |>
   dplyr::mutate(weight = NA) |>
   dplyr::bind_rows(inc_long) |>
