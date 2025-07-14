@@ -1,0 +1,87 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{matrix,positioning,arrows.meta,shapes.geometric}
+
+\begin{document}
+\begin{tikzpicture}[
+    table/.style={
+        matrix of nodes,
+        nodes={
+            draw,
+            minimum width=1.2cm,
+            minimum height=0.7cm,
+            anchor=center,
+            font=\small
+        },
+        column sep=-\pgflinewidth,
+        row sep=-\pgflinewidth,
+    },
+    header/.style={fill=blue!20, font=\small\bfseries},
+    data/.style={fill=white},
+    arrow/.style={-Stealth, thick, blue!70, line width=1.5pt},
+    computation/.style={
+        rectangle,
+        draw,
+        fill=orange!30,
+        rounded corners=5pt,
+        minimum width=3cm,
+        minimum height=2cm,
+        font=\bfseries,
+        text width=2.5cm,
+        text centered
+    }
+]
+
+% Input table (5 rows)
+\matrix[table] (input) {
+    |[header]| Group & |[header]| Value \\
+    |[data]| A & |[data]| 10 \\
+    |[data]| A & |[data]| 15 \\
+    |[data]| B & |[data]| 8 \\
+    |[data]| B & |[data]| 12 \\
+    |[data]| C & |[data]| 20 \\
+};
+
+% Computation block
+\node[computation, right=3cm of input] (block) {
+    GROUP BY\\
+    \&\\
+    AGGREGATE\\
+    \\
+    \small{(SUM values)}
+};
+
+% Output table (3 rows)
+\matrix[table, right=3cm of block] (output) {
+    |[header]| Group & |[header]| Total \\
+    |[data]| A & |[data]| 25 \\
+    |[data]| B & |[data]| 20 \\
+    |[data]| C & |[data]| 20 \\
+};
+
+% Arrows
+\draw[arrow] (input.east) -- (block.west);
+\draw[arrow] (block.east) -- (output.west);
+
+% Labels
+\node[above=0.5cm of input, font=\bfseries\large] {Input Table};
+\node[above=0.5cm of output, font=\bfseries\large] {Output Table};
+\node[above=0.5cm of block, font=\bfseries\large, color=orange!80] {Block Computation};
+
+% Row count annotations
+\node[below=0.3cm of input, font=\small\itshape, color=gray] {5 rows};
+\node[below=0.3cm of output, font=\small\itshape, color=gray] {3 rows};
+
+% Add dimension arrows to show transformation
+\draw[<->, gray, thick] ([yshift=-1cm]input.south west) -- ([yshift=-1cm]input.south east) 
+    node[midway, below, font=\small] {2 columns};
+\draw[<->, gray, thick] ([yshift=-1cm]output.south west) -- ([yshift=-1cm]output.south east) 
+    node[midway, below, font=\small] {2 columns};
+
+% Add processing indicators
+\node[diamond, draw, fill=red!20, minimum size=0.8cm, 
+      above left=0.5cm and 0.5cm of block] (proc1) {\small 5→3};
+
+\end{tikzpicture}
+\end{document}
